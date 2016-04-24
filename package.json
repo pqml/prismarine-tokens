@@ -1,6 +1,6 @@
 {
   "name": "prismarine-tokens",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Store and use authentication tokens instead of passwords to prevent Mojang from blocking your account",
   "main": "index.js",
   "scripts": {

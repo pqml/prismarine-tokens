@@ -12,7 +12,7 @@ Store and use authentication tokens instead of passwords to emulate the way the 
 
 ## Installation
 
-`npm install prismarine-token`
+`npm install prismarine-tokens`
 
 
 ## Usage
