@@ -35,7 +35,7 @@ var options = {
   tokensDebug: true
 };
 
-tokens.use(options, function(_opts, _err){
+tokens.use(options, function(_err, _opts){
 
   if (_err) throw _err;
 
@@ -68,7 +68,7 @@ var options = {
 };
 
 
-tokens.use(options, function(_opts, _err){
+tokens.use(options, function(_err, _opts){
 
   if (_err) throw _err;
 

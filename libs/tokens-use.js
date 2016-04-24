@@ -11,11 +11,11 @@ module.exports = (_opt, _cb) => {
   var serve = function(){
     if(options.tokensLocation) delete options.tokensLocation;
     if(options.tokensDebug) delete options.tokensDebug;
-    cb(options, null);
+    cb(null, options);
     return true;
   }
   var error = function(_err){
-    cb(null, _err);
+    cb(_err, null);
     return false;
   }
   var finish = function(){
