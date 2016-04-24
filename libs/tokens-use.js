@@ -31,9 +31,23 @@ module.exports = (_opt, _cb) => {
     } else return serve();
   }
   var resetTokens = function(){
+    if(!options.password || !options.username){ //no password ?
+      debug('Valid Password and Username are required to generate a new token.');
+      debug('Stop minecraft-tokens for this one. It should work in offline-mode.');
+      if(options.username){
+         options.username = options.username.split('@')[0];
+         options.username = options.username.replace(/\W/g, '');
+       }
+      delete options.session;
+      return finish();
+    }
     _clientToken = ( options.clientToken ) ? options.clientToken : null; //if there is a client token, don't re-generate it
     yggdrasil.auth({ user: options.username, pass: options.password, token: _clientToken }, function(_err, _data){
-      if(_err) return error(_err);
+      if(_err){
+        debug('Password authentification impossible ('+_err+')');
+        delete options.password;
+        return resetTokens();
+      }
       debug('accessToken reset (new value: '+_data.accessToken+')');
       options.session = _data;
       options.clientToken = ( options.clientToken ) ? options.clientToken : _data.clientToken;
@@ -64,7 +78,6 @@ module.exports = (_opt, _cb) => {
 
 //----If there is no session/tokens, authentication with yggdrasil
       if(!options.session || !options.session.accessToken || !options.clientToken){
-        if(!options.password) return finish(); //no password ? offline-mode then
         debug('No accessToken yet - try to make one from password authentication');
         return resetTokens();
 //----If we already have a session
