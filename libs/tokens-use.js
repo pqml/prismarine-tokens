@@ -82,8 +82,8 @@ module.exports = (_opt, _cb) => {
         return resetTokens();
 //----If we already have a session
       } else {
-        yggdrasil.validate(options.session.accessToken, function(_ok) {
-          if (_ok) { //Session is ok
+        yggdrasil.validate(options.session.accessToken, function(err) {
+          if (!err) { //Session is ok
             debug('accessToken still ok !');
             return finish();
           } else { //Session is outdated, try to refresh it
