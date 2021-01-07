@@ -46,6 +46,9 @@ module.exports = (_opt, _cb) => {
       if(_err){
         debug('Password authentification impossible ('+_err+')');
         delete options.password;
+        if (_err === 'Request blocked by CloudFlare') {
+          return error(_err)
+        }
         return resetTokens();
       }
       debug('accessToken reset (new value: '+_data.accessToken+')');
@@ -87,8 +90,14 @@ module.exports = (_opt, _cb) => {
             debug('accessToken still ok !');
             return finish();
           } else { //Session is outdated, try to refresh it
+            if (_err === 'Request blocked by CloudFlare') {
+              return error(_err)
+            }
             debug('Token outdated - try to refresh it');
             yggdrasil.refresh(options.session.accessToken, options.clientToken, function(_err, _accessToken, _data) {
+              if (_err === 'Request blocked by CloudFlare') {
+                return error(_err)
+              }
               //Error - reset of accessToken
               if(_err || _accessToken === null){
                 debug('Invalid token. - new one from password authentication');
